@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notemaster</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://davidtkatz.com/public_css/noteMaster.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" type="image/png" href="favicon-16x16.png"/>
+</head>
+<body>
+    
+<div id="app">
+    <h2 class="titleStyle">{{title}}</h2>
+    <div class="form text-center col-4 mx-auto mb-5">
+        <div class="form-group">
+            <div class="form-group">
+                <label>Note Title</label>
+                <input class="form-control" type="text" v-model="note.title">
+            </div>
+            <div class="form-group">
+                <label>Note text</label>
+                <textarea class="form-control" v-model="note.text"></textarea>
+            </div>
+        </div>
+        <button class="btn btn-primary" @click="addNote">Add note</button>
+    </div>
+    <div class="col-sm-12">
+        <div class="col-sm-4 note" v-for="(note, index) in notes">
+            <div class="card bgCards">
+                <div class="card-block">
+                    <button class="close" @click="removeNote(index)">&times;</button>
+                    <h4 class="card-title">{{note.title}}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{{note.date}}</h6>
+                    <p class="card-text">{{note.text}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var app = new Vue ({
+        el: '#app',
+        data: {
+            title: 'Notemaster',
+            note: {
+                title: '',
+                text: ''
+            },
+            notes: [
+                {
+                    title: 'Visited Cappadocia',
+                    text: `When we first arrived in Cappadocia, it didn’t feel like we were stepping out of a bus. It felt more like we were getting off a spaceship. It was the oddest-looking landscape I had ever seen with its mushroom-capped fairy chimneys and cities carved in stone. Cave dwelling has a long history in Cappadocia so people have likened its landscape to the Flintstones but to me, it felt more like the surface of the moon, completely alien and not of this earth.
+                           One of the things that surprised me the most about Turkey was its geographic diversity. Natural or man-made, there is so much to marvel at from its calcium travertines in Pamukkale to the minaret-filled skyline of Istanbul. But for me, Cappadocia topped them all. It’s beauty, as you’ll soon see, is out of this world.
+                           And if you think it looks stunning from the ground, wait till you see it from the skies.`,
+                    date: new Date(Date.now()).toLocaleString()
+                }
+            ]
+        },
+        methods: {
+            addNote(){
+                let { text, title } = this.note
+                this.notes.push({
+                    text, 
+                    title, 
+                    date: new Date(Date.now()).toLocaleString()
+                })
+            },
+            removeNote(index) {
+                this.notes.splice(index, 1)
+            }
+        }
+    })
+</script>
+</body>
+</html>
